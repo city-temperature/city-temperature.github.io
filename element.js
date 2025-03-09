@@ -16,15 +16,18 @@
             let [
                 lat,
                 lon = this.getAttribute("lon") || 4.904,
-                unit = this.getAttribute("unit") || "C",
+                unit = this.getAttribute("unit"),
             ] = (this.getAttribute("location") || this.getAttribute("lat") || 52.366).split(",")
             // ------------------------------------------------------------ display the component
             this
                 .attachShadow({ mode: "open" })
                 .append(
+                // ------------------------------------------------------------ create the CSS
                     createElement("style", { innerHTML: `:host{display:inline-block}` }),
-                    this.getAttribute("prefix") || "The temperature in ",
+                    // ------------------------------------------------------------ create the HTML
+                    this.getAttribute("prefix") || "The temperature in", " ",
                     this.getAttribute("city") || "", " is ",
+                // ------------------------------------------------------------ create <location-temperature>
                     createElement("location-temperature", {
                         part: "temperature",
                         lat, lon, unit

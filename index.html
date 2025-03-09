@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+        src="https://web-components-banner.github.io/element.min.js?text1=Single_File&text5anchor=end:93&text2=Web_Components&text3=<city-temperature>"></script>
     <script src="element.js"></script>
     <title>City Temperature</title>
     <style>
         body {
+            --backgroundcolor: beige;
             font-family: Arial, sans-serif;
             margin: 0 auto;
             padding: 0;
@@ -15,21 +18,27 @@
             width: 1000px;
         }
 
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1em;
+        web-components-banner {
+            background: var(--backgroundcolor);
         }
 
         main {
+            background: var(--backgroundcolor);
             padding: 1em;
-            background: beige;
             height: 100vh;
         }
 
-        section {
-            margin-bottom: 1em;
+        a {
+            color: blue;
+        }
+
+        code {
+            display: inline-block;
+            margin-left: 2em;
+            background-color: lightgreen;
+            padding: 0 1em;
+            font-weight: bold;
+            font-size: 140%;
         }
 
         city-temperature {
@@ -37,6 +46,7 @@
             margin-bottom: 1em;
         }
 
+        /* style shadowDOM parts */
         city-temperature::part(temperature) {
             font-weight: bold;
             color: darkgreen;
@@ -48,34 +58,23 @@
             color: black;
             font-size: 1em;
         }
-
-        a {
-            color: white;
-        }
-
-        code {
-            display: inline-block;
-            margin-left: 2em;
-            background-color: lightgreen;
-            padding: 0 1em;
-            font-weight: bold;
-            font-size: 140%;
-        }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>&lt;city-temperature> Web Component</h1>
-        <h3>includes &lt;location-temperature> Web Component</h3>
-        <p>Source code: <a href="https://github.com/city-temperature/city-temperature.github.io">GitHub</a></p>
+        <web-components-banner from="script" text4="includes <location-temperature>"
+            text4fill="darkgreen"></web-components-banner>
     </header>
     <main>
         <section id="temperature">
-            <h2>Load</h2>
+            <p>No License Source Code: <a href="https://github.com/city-temperature/city-temperature.github.io">GitHub</a></p>
+            
+            <h2>Load:</h2>
             <code><pre>&ltscript src="https://city-temperature.github.io/element.js">&lt;/script></pre></code>
-            <h2>Use</h2>
+            <h2>Use:</h2>
             <code><pre>&ltcity-temperature city="Amsterdam" lat="52.368" lon="4.904">&lt;/city-temperature></pre></code>
+            <p>See page source code for more usages</p>
 
             <h2>Current Temperature</h2>
             <city-temperature city="Amsterdam" lat="52.368" lon="4.904"></city-temperature>
