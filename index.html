@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="element.js"></script>
+    <title>City Temperature</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            padding: 0;
+            max-width: 1000px;
+            width: 1000px;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            padding: 1em;
+            background: beige;
+            height: 100vh;
+        }
+
+        section {
+            margin-bottom: 1em;
+        }
+
+        city-temperature {
+            display: block;
+            margin-bottom: 1em;
+        }
+
+        city-temperature::part(temperature) {
+            font-weight: bold;
+            color: darkgreen;
+            font-size: 1.1em;
+        }
+
+        city-temperature::part(unit) {
+            font-weight: bold;
+            color: black;
+            font-size: 1em;
+        }
+
+        a {
+            color: white;
+        }
+        code {
+            display:inline-block;
+            padding-left:2em;
+            background-color: #f4f4f4;
+            font-size:150% 
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>&lt;city-temperature> Web Component</h1>
+        <h3>includes &lt;location-temperature> Web Component</h3>
+        <p>Source code: <a href="https://github.com/city-temperature/city-temperature.github.io">GitHub</a></p>
+    </header>
+    <main>
+        <section id="temperature">
+            <h2>Load</h2>
+            <code><pre>&ltscript src="https://city-temperature.github.io/element.js">&lt;/script></pre></code>
+            <h2>Use</h2>
+            <code><pre>&ltcity-temperature city="Amsterdam" lat="52.368" lon="4.904">&lt;/city-temperature></pre></code>
+
+            <h2>Current Temperature</h2>
+            <city-temperature city="Amsterdam" lat="52.368" lon="4.904"></city-temperature>
+            <city-temperature prefix="Current temperature in" unit="F" city="San Francisco" lat="37.775"
+                lon="-122.419"></city-temperature>
+            <city-temperature city="Tokyo" lat="35.689" lon="139.692"></city-temperature>
+            <city-temperature city="Sydney" lat="-33.868" lon="151.209"></city-temperature>
+            <city-temperature city="London" lat="51.5074" lon="-0.1278"></city-temperature>
+        </section>
+    </main>
+</body>
+
+</html>
