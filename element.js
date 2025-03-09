@@ -29,7 +29,7 @@
                     this.getAttribute("city") || "", " is ",
                 // ------------------------------------------------------------ create <location-temperature>
                     createElement("location-temperature", {
-                        part: "temperature",
+                        part: "city-temperature",
                         lat, lon, unit
                     }),
                 )
@@ -58,7 +58,10 @@
             if (data?.reason?.includes("one minute")) { // maximum requests per minute
                 this.innerHTML = "🔄"
                 setTimeout(() => this.connectedCallback(), 60000) // one minute
-            } else {    
+            } else if (data?.reason?.includes("Daily")) { // maximum requests per day
+                this.innerHTML = span("🔒 daily API limit reached", "apierror")
+
+            } else {
                 // ------------------------------------------------------------ display the data
                 this.innerHTML =
                     span(data.current_weather.temperature, "temperature") +
