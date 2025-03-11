@@ -1,24 +1,18 @@
-!(function () {
+!(function () { // IIFE so code can be included in any page/script without conflicts
+
     // ------------------------------------------------------------------------ Helper functions
     const createElement = (tag, props = {}) => Object.assign(document.createElement(tag), props)
     // ------------------------------------------------------------------------
     const span = (html, part) => `<span part="${part}">${html}</span>`
+
     // ************************************************************************ <city-temperature>
     customElements.define("city-temperature", class extends HTMLElement {
-        // attributes: 
+        // attributes:
         // lat, lon 
-        // or location="lat,lon"
         // unit="F" Fahrenheit, default is Celsius
         // city="Amsterdam"
         // prefix="Current temperature in"    
         connectedCallback() {
-            // ------------------------------------------------------------ get LAT LON coordinates
-            let [
-                lat,
-                lon = this.getAttribute("lon") || 4.904,
-                unit = this.getAttribute("unit"),
-            ] = (this.getAttribute("location") || this.getAttribute("lat") || 52.366).split(",");
-            let city = this.getAttribute("city");
             // ------------------------------------------------------------ display the component
             this
                 .attachShadow({ mode: "open" })
@@ -26,41 +20,41 @@
                 // ------------------------------------------------------------ create the CSS
                     createElement("style", { innerHTML: `:host{display:inline-block}` }),
                     // ------------------------------------------------------------ create the HTML
-                    this.getAttribute("prefix") || "The temperature in", " ",
-                    city || "", " is ",
+                    (this.getAttribute("prefix") || "The temperature in"), " ",
+                    (this.getAttribute("city") || "[no city]"), " is ",
                 // ------------------------------------------------------------ create <location-temperature>
                     createElement("location-temperature", {
                         part: "city-temperature",
-                        city,
-                        lat, lon, unit
+                        lat: this.getAttribute("lat"),
+                        lon: this.getAttribute("lon"),
+                        city: this.getAttribute("city"),
+                        unit: this.getAttribute("unit"),
                     }),
-                )
-        }
-    })
-    // ************************************************************************ class Temperatures
-    class Temperatures extends HTMLElement {
-    }
+            ) // append
+        } // connectedCallback
+    }) // define
+
     // ************************************************************************ <location-temperature>
     customElements.define("location-temperature", class extends HTMLElement {
         async connectedCallback() {
-            // ---------------------------------------------------------------- get LAT LON coordinates
+            // ---------------------------------------------------------------- get LAT LON properties or attribute from this scope
             let {
-                lat = this.getAttribute("lat") || console.error("No lat"),
-                lon = this.getAttribute("lon") || console.error("No lon"),
+                lat = this.getAttribute("lat") || 52.366,
+                lon = this.getAttribute("lon") || 4.904,
                 unit = this.getAttribute("unit") || "C",
                 city = this.getAttribute("city"),
             } = this;
-            // ---------------------------------------------------------------- prepare API url
+            // ---------------------------------------------------------------- prepare API url geo-location
             let url;
             if (city) {
                 url = `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`
                 const data = await (await fetch(url)).json()
+                // get city lat,lon
                 lat = data.results[0].latitude;
                 lon = data.results[0].longitude;
             }
-            // ---------------------------------------------------------------- fetch temperature
-            url =
-                `https://api.open-meteo.com/v1/forecast` +
+            // ---------------------------------------------------------------- fetch temperature by LAT , LON
+            url = `https://api.open-meteo.com/v1/forecast` +
                 `?latitude=${lat}&longitude=${lon}` +
                 (unit == "F" ? `&temperature_unit=fahrenheit` : "") +
                 `&current_weather=true`;
@@ -80,6 +74,7 @@
                     " " +
                     span(data.current_weather_units.temperature, "unit")
             }
-        }
-    });
+        } // connectedCallback
+    }); // define
+    // ************************************************************************
 }());
